@@ -92,3 +92,4 @@ curl -X DELETE http://localhost:8080/api/products/1
 - `service/mapping/ProductMapper` chuẩn hóa dữ liệu sản phẩm trước khi lưu.
 - `service/utility/ProductValidator` validate dữ liệu đầu vào.
 - Khi cần dùng database, thay `InMemoryProductStore` bằng tầng persistence dùng JDBC/JPA.
+# affihub-api
