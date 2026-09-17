@@ -1,0 +1,31 @@
+microService:
+  name: "AffiHub API"
+  id: "MC_AffiHub_01"
+  shardId: 1
+  args:
+    savePathDir: "/usr/local/data/AffiHub/"
+    maxUploadFile: 5000000
+    webLink: "http://localhost:8080/api/"
+    env: "dev"
+
+httpServer:
+  server:
+    host: "http://0.0.0.0"
+    port: 8080
+    maxThread: 100
+    minThread: 10
+    idleTimeOut: 600
+    minIdle: 5
+    maxIdle: 10
+  apis:
+    - prefix: "/api"
+      pack: "com.affihub.endpoints"
+  authentications: []
+
+postgres:
+  name: "PostGreSQL SQL Server"
+  host: ""
+  userName: ""
+  passWord: ""
+  database: ""
+  readOnly: false

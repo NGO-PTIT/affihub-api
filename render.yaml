@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: affihub-api
+    runtime: docker
+    healthCheckPath: /api/products
+    envVars:
+      - key: POSTGRES_HOST
+        sync: false
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DATABASE
+        sync: false
+      - key: POSTGRES_READ_ONLY
+        value: "false"
