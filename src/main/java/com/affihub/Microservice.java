@@ -3,6 +3,7 @@ package com.affihub;
 import com.affihub.endpoints.ProductEndpoint;
 import com.affihub.endpoints.CategoryEndpoint;
 import com.affihub.lib.ApiExceptionMapper;
+import com.affihub.lib.CorsFilter;
 import com.affihub.service.implement.ProductServiceImplement;
 import com.affihub.service.implement.ProductClickServiceImplement;
 import com.affihub.service.implement.CategoryServiceImplement;
@@ -27,6 +28,7 @@ public class Microservice extends ResourceConfig {
         register(ProductEndpoint.class);
         register(CategoryEndpoint.class);
         register(ApiExceptionMapper.class);
+        register(CorsFilter.class);
         register(JacksonFeature.class);
         register(ObjectMapperProvider.class);
     }
