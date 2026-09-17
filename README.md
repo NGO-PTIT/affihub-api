@@ -42,6 +42,9 @@ PUT    /api/products/{id}  Sửa sản phẩm
 DELETE /api/products/{id}  Xóa sản phẩm
 ```
 
+Khi tạo sản phẩm, `category` phải là một trong các giá trị: `Electronics`, `Fashion`,
+`Home & Living`, `Beauty`, `Health`, `Sports`, `Books`, `Food & Beverage`, `Pets`, `Kids`, hoặc `Other`.
+
 ## Ví dụ request
 
 Thêm sản phẩm:

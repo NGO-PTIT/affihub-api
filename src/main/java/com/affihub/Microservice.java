@@ -1,9 +1,11 @@
 package com.affihub;
 
 import com.affihub.endpoints.ProductEndpoint;
+import com.affihub.endpoints.CategoryEndpoint;
 import com.affihub.lib.ApiExceptionMapper;
 import com.affihub.service.implement.ProductServiceImplement;
 import com.affihub.service.implement.ProductClickServiceImplement;
+import com.affihub.service.implement.CategoryServiceImplement;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -23,6 +25,7 @@ public class Microservice extends ResourceConfig {
 
     public Microservice() {
         register(ProductEndpoint.class);
+        register(CategoryEndpoint.class);
         register(ApiExceptionMapper.class);
         register(JacksonFeature.class);
         register(ObjectMapperProvider.class);
@@ -35,6 +38,7 @@ public class Microservice extends ResourceConfig {
             server.shutdownNow();
             ProductServiceImplement.shutdown();
             ProductClickServiceImplement.shutdown();
+            CategoryServiceImplement.shutdown();
         }));
         System.out.println("Jersey API started at " + BASE_URI);
         try {

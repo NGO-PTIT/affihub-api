@@ -1,9 +1,12 @@
 package com.affihub.endpoints;
 
+import com.affihub.object.Category;
 import com.affihub.object.Product;
 import com.affihub.object.ProductClick;
+import com.affihub.service.CategoryService;
 import com.affihub.service.ProductClickService;
 import com.affihub.service.ProductService;
+import com.affihub.service.implement.CategoryServiceImplement;
 import com.affihub.service.implement.ProductClickServiceImplement;
 import com.affihub.service.implement.ProductServiceImplement;
 import jakarta.ws.rs.Consumes;
@@ -28,12 +31,13 @@ import java.util.List;
 public class ProductEndpoint {
     private static final ProductService productService = new ProductServiceImplement();
     private static final ProductClickService productClickService = new ProductClickServiceImplement();
+    private static final CategoryService categoryService = new CategoryServiceImplement();
 
     @GET
-    public Response getProducts(@QueryParam("category") String category) throws Exception {
-        List<Product> products = category == null || category.isBlank()
+    public Response getProducts(@QueryParam("categoryId") Long categoryId) throws Exception {
+        List<Product> products = categoryId == null
                 ? productService.findAll()
-                : productService.findByCategory(category.trim());
+                : productService.findByCategoryId(categoryId);
 
         JSONArray data = new JSONArray();
         for (Product product : products) {
@@ -67,15 +71,25 @@ public class ProductEndpoint {
     public Response createProduct(String body) throws Exception {
         JSONObject jsonObject = new JSONObject(body);
         long timeNow = System.currentTimeMillis();
+
+        long categoryId =  jsonObject.optLong("categoryId");
+        if (categoryId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        } else {
+            Category category = categoryService.findById(categoryId);
+            if (category == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        }
         Product product = new Product(
                 timeNow,
                 jsonObject.optString("name"),
                 jsonObject.optString("description"),
-                jsonObject.optString("category"),
+                categoryId,
                 jsonObject.optLong("price"),
                 0,
-                jsonObject.optString("imageUrl"),
-                jsonObject.optString("affiliateLink"),
+                jsonObject.optString("image_url"),
+                jsonObject.optString("affiliate_link"),
                 timeNow,
                 timeNow
         );
@@ -99,8 +113,16 @@ public class ProductEndpoint {
             sourceInfo = new JSONObject();
         }
 
+        Product product = productService.findById(productId);
+        if (product == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
         ProductClick productClick = new ProductClick(productId, System.currentTimeMillis(), sourceInfo);
         productClickService.create(productClick);
+
+        product.setClickSum(product.getClickSum() + 1);
+        productService.update(productId, product);
 
         return Response
                 .status(Response.Status.CREATED)
@@ -153,8 +175,8 @@ public class ProductEndpoint {
         if (jsonObject.has("description")) {
             existing.setDescription(jsonObject.getString("description"));
         }
-        if (jsonObject.has("category")) {
-            existing.setCategory(jsonObject.getString("category"));
+        if (jsonObject.has("categoryId")) {
+            existing.setCategoryId(jsonObject.getLong("categoryId"));
         }
         if (jsonObject.has("price")) {
             existing.setPrice(jsonObject.getLong("price"));

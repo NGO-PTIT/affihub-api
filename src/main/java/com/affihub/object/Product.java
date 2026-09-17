@@ -3,10 +3,10 @@ package com.affihub.object;
 import org.json.JSONObject;
 
 public class Product {
-    private long id;
+    private long productId;
     private String name;
     private String description;
-    private String category;
+    private long categoryId;
     private long price;
     private int clickSum;
     private String imageUrl;
@@ -17,12 +17,12 @@ public class Product {
     public Product() {
     }
 
-    public Product(long id, String name, String description, String category, long price, int clickSum, String imageUrl,
+    public Product(long productId, String name, String description, long categoryId, long price, int clickSum, String imageUrl,
                    String affiliateLink, long createdTime, long updatedTime) {
-        this.id = id;
+        this.productId = productId;
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.categoryId = categoryId;
         this.price = price;
         this.clickSum = clickSum;
         this.imageUrl = imageUrl;
@@ -31,12 +31,12 @@ public class Product {
         this.updatedTime = updatedTime;
     }
 
-    public long getId() {
-        return id;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -55,12 +55,12 @@ public class Product {
         this.description = description;
     }
 
-    public String getCategory() {
-        return category;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public long getPrice() {
@@ -113,10 +113,10 @@ public class Product {
 
     public JSONObject getAsJSONObject() throws Exception {
         return new JSONObject()
-                .put("id", this.id)
+                .put("productId", this.productId)
                 .put("name", this.name)
                 .put("description", this.description)
-                .put("category", this.category)
+                .put("categoryId", this.categoryId)
                 .put("price", this.price)
                 .put("clickSum", this.clickSum)
                 .put("imageUrl", this.imageUrl)

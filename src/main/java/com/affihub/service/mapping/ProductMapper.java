@@ -10,16 +10,16 @@ public class ProductMapper {
         }
 
         return new Product(
-                getLong(row, "id"),
+                getLong(row, "productid"),
                 getString(row, "name"),
                 getString(row, "description"),
-                getString(row, "category"),
+                getLong(row, "categoryid"),
                 getLong(row, "price"),
-                getInt(row, "click_sum"),
-                getString(row, "image_url"),
-                getString(row, "affiliate_link"),
-                getLong(row, "created_time"),
-                getLong(row, "updated_time")
+                getInt(row, "clicksum"),
+                getString(row, "imageurl"),
+                getString(row, "affiliatelink"),
+                getLong(row, "createdtime"),
+                getLong(row, "updatedtime")
         );
     }
 

@@ -36,8 +36,8 @@ public class ProductServiceImplement implements ProductService {
     }
 
     @Override
-    public List<Product> findByCategory(String category) {
-        return POSTGRES_REPOSITORY.fetch(FIND_PRODUCTS_BY_CATEGORY, category).stream()
+    public List<Product> findByCategoryId(long categoryId) {
+        return POSTGRES_REPOSITORY.fetch(FIND_PRODUCTS_BY_CATEGORY_ID, categoryId).stream()
                 .map(mapper::mapRow)
                 .collect(Collectors.toList());
     }
@@ -56,10 +56,10 @@ public class ProductServiceImplement implements ProductService {
         assertWritable();
         POSTGRES_REPOSITORY.executeQuery(
                 INSERT_PRODUCT,
-                product.getId(),
+                product.getProductId(),
                 product.getName(),
                 product.getDescription(),
-                product.getCategory(),
+                product.getCategoryId(),
                 product.getPrice(),
                 product.getClickSum(),
                 product.getImageUrl(),
@@ -77,7 +77,7 @@ public class ProductServiceImplement implements ProductService {
                 UPDATE_PRODUCT,
                 product.getName(),
                 product.getDescription(),
-                product.getCategory(),
+                product.getCategoryId(),
                 product.getPrice(),
                 product.getClickSum(),
                 product.getImageUrl(),
@@ -110,37 +110,37 @@ public class ProductServiceImplement implements ProductService {
 
     private static final String INSERT_PRODUCT =
             "INSERT INTO product " +
-                    "(id, name, description, category, price, clickSum, imageUrl, affiliateLink, " +
-                    "createdTime, updatedTime) " +
+                    "(productid, name, description, categoryid, price, clicksum, imageurl, affiliatelink, " +
+                    "createdtime, updatedtime) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-                    "ON CONFLICT (id) " +
+                    "ON CONFLICT (productid) " +
                     "DO UPDATE SET " +
                     "name = EXCLUDED.name, " +
                     "description = EXCLUDED.description, " +
-                    "category = EXCLUDED.category, " +
+                    "categoryid = EXCLUDED.categoryid, " +
                     "price = EXCLUDED.price, " +
-                    "clickSum = EXCLUDED.clickSum, " +
-                    "imageUrl = EXCLUDED.imageUrl, " +
-                    "affiliateLink = EXCLUDED.affiliateLink, " +
-                    "createdTime = EXCLUDED.createdTime, " +
-                    "updatedTime = EXCLUDED.updatedTime;";
+                    "clicksum = EXCLUDED.clicksum, " +
+                    "imageurl = EXCLUDED.imageurl, " +
+                    "affiliatelink = EXCLUDED.affiliatelink, " +
+                    "createdtime = EXCLUDED.createdtime, " +
+                    "updatedtime = EXCLUDED.updatedtime;";
 
     private static final String UPDATE_PRODUCT =
-            "UPDATE products " +
-                    "SET name = ?, description = ?, category = ?, price = ?, clickSum = ?, " +
-                    "imageUrl = ?, affiliateLink = ?, createdTime = ?, updatedTime = ? " +
-                    "WHERE id = ?";
+            "UPDATE product " +
+                    "SET name = ?, description = ?, categoryid = ?, price = ?, clicksum = ?, " +
+                    "imageurl = ?, affiliatelink = ?, createdtime = ?, updatedtime = ? " +
+                    "WHERE productid = ?";
 
     private static final String DELETE_PRODUCT =
-            "DELETE FROM products WHERE id = ?";
+            "DELETE FROM product WHERE productid = ?";
 
     private static final String FIND_PRODUCT_BY_ID =
-            "SELECT * FROM products WHERE id = ?";
+            "SELECT * FROM product WHERE productid = ?";
 
     private static final String FIND_PRODUCTS =
-            "SELECT * FROM products ORDER BY id";
+            "SELECT * FROM product ORDER BY productid";
 
-    private static final String FIND_PRODUCTS_BY_CATEGORY =
-            "SELECT * FROM products WHERE category = ? ORDER BY id";
+    private static final String FIND_PRODUCTS_BY_CATEGORY_ID =
+            "SELECT * FROM product WHERE categoryid = ? ORDER BY productid";
 
 }
